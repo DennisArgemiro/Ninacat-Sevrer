@@ -4,7 +4,7 @@ import * as supabase from '../data/interface/supabase.js'
 const router = Express.Router();
 
 router.post("/signUp", async (req, res) => {
-// Registrar-se
+    // Registrar-se
     const {
         name,
         password,
@@ -14,34 +14,36 @@ router.post("/signUp", async (req, res) => {
         name,
         username,
         password,
-        uid: Math.floor(Math.random() * (999999 - 100000) + 100000) 
+        uid: Math.floor(Math.random() * (999999 - 100000) + 100000)
     }
-    const response = await supabase.insert("User",data)
+    const response = await supabase.insert("User", data)
     res.json(response).status(200)
 })
 
 router.post("/signIn", async (req, res) => {
-// Logar-se
+    // Logar-se
     const { username, password } = req.body;
-
-    const data = await supabase.select("User", undefined,{colunm: "username", value: username})
-    if(data[0] != undefined){
-        if(data[0].password == password){
+    console.log("Cheguei até aqui")
+    const data = await supabase.select("User", undefined, { colunm: "username", value: username })
+    if (data[0] != undefined) {
+        if (data[0].password == password) {
             res.json({
-                msg: "Sign In with Sucess"
-            }).status(200)
-        }else{
+                msg: "Sign In with Sucess",
+                status: 200
+            })
+        } else {
             res.json({
-                msg: "Password Incorrect"
-            }).status(400)
+                msg: "Password Incorrect",
+                status: 400
+            })
         }
-    }else {
+    } else {
         res.json({
-            msg: "User Not Found"
-        }).status(400)
+            msg: "User Not Found",
+            status: 400
+        })
     }
 
-    
 })
 
-export default router
+export default router   

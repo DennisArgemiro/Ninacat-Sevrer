@@ -11,12 +11,7 @@ router.post("/createRoom", async (req, res) => {
     // 011 - Grupo
     // Código do tipo de Sala + ID do 1° usuário + 010 + ID do 1° usuário
     // Exemplo de código de sala : 010873444983764
-    const {
-        idRequester,
-        idRequested,
-        typeRoom,
-        msgs
-    } = req.body
+    const { idRequester, idRequested, typeRoom, msgs } = req.body
 
     // Criar arquivo da sala
     const _private = "010";
@@ -25,9 +20,6 @@ router.post("/createRoom", async (req, res) => {
     const types = { _private, group }
 
     const roomCode = `${types[typeRoom]}${idRequester}${idRequested}`
-
-    const filePath = __dirname + `/rooms/${roomCode}.json`
-
 
     // Criar cabeçalho do Arquivo da Sala   
     var headerRoom = {
@@ -41,6 +33,14 @@ router.post("/createRoom", async (req, res) => {
     const data = await supabase.select("Room", "msgs")
 
     res.json(data)
+})
+
+router.post("/msgPkg", (req, res)=>{
+    const {
+        idRoom,
+        msg,
+        type,
+    } = req.body
 })
 
 router.get("/supa", async (req, res) => {
